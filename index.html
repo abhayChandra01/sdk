@@ -26,13 +26,25 @@
   }(document));
 
   function login() {
-      FB.login(function(response) {
+FB.login(
+  function(response) {
+    console.log(response);
+  },
+  {
+    config_id: '1009811486953235' // configuration ID goes here
+    ,response_type: 'code',
+    override_default_response_type: true
+  }
+);
 
-      // handle the response
-      console.log("Response goes here!");
-        console.log(response);
+    
+      // FB.login(function(response) {
 
-      }, {config_id:'1009811486953235'});            
+      // // handle the response
+      // console.log("Response goes here!");
+      //   console.log(response);
+
+      // }, {config_id:'1009811486953235'});            
   }
 
   function logout() {
