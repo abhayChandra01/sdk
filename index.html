@@ -29,6 +29,9 @@
 FB.login(
   function(response) {
     console.log(response);
+    var status = FB.getLoginStatus();
+
+console.log(status);
   },
   {
     config_id: '1009811486953235',
