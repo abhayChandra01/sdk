@@ -1,19 +1,4 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Facebook SDK Example</title>
-</head>
-<body>
-    <script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
-    <script src="script.js"></script>
-
-    <button id="loginButton">Login with Facebook</button>
-
-</body>
-</html>
-<!-- <!DOCTYPE html>
 <html>
 <head>
 <title>Facebook Login JavaScript Example</title>
@@ -40,7 +25,6 @@
     });
   }
 
-  
 
   window.fbAsyncInit = function() {
     FB.init({
@@ -50,6 +34,20 @@
       version    : 'v18.0'           // Use this Graph API version for this call.
     });
 
+    FB.login(function (response) {
+            if (response.authResponse) {
+                // User is logged in
+                FB.api('/me', function (userInfo) {
+                    console.log('Welcome, ' + userInfo.name + '!');
+                });
+            } else {
+                console.log('Login failed or the user canceled.');
+            }
+        }, {
+            config_id: "269138165960680",
+            response_type: 'code',
+            override_default_response_type: true,
+        });
     
 
     FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
@@ -68,3 +66,17 @@
 
 </script>
 
+
+<!-- The JS SDK Login Button -->
+
+<fb:login-button config_id="269138165960680" onlogin="checkLoginState();">
+</fb:login-button>
+
+
+<div id="status">
+</div>
+
+<!-- Load the JS SDK asynchronously -->
+<script async defer crossorigin="anonymous" src="https://connect.facebook.net/en_US/sdk.js"></script>
+</body>
+</html>
