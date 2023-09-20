@@ -28,27 +28,12 @@
 
   window.fbAsyncInit = function() {
     FB.init({
-      appId      : '175488245581734',
+      appId      : '257618033911480',
       cookie     : true,                     // Enable cookies to allow the server to access the session.
       xfbml      : true,                     // Parse social plugins on this webpage.
       version    : 'v18.0'           // Use this Graph API version for this call.
     });
 
-    FB.login(function (response) {
-            if (response.authResponse) {
-                // User is logged in
-                FB.api('/me', function (userInfo) {
-                    console.log('Welcome, ' + userInfo.name + '!');
-                });
-            } else {
-                console.log('Login failed or the user canceled.');
-            }
-        }, {
-            config_id: "269138165960680",
-            response_type: 'code',
-            override_default_response_type: true,
-        });
-    
 
     FB.getLoginStatus(function(response) {   // Called after the JS SDK has been initialized.
       statusChangeCallback(response);        // Returns the login status.
@@ -69,9 +54,8 @@
 
 <!-- The JS SDK Login Button -->
 
-<fb:login-button config_id="269138165960680" onlogin="checkLoginState();">
+<fb:login-button scope="public_profile,email" onlogin="checkLoginState();">
 </fb:login-button>
-
 
 <div id="status">
 </div>
