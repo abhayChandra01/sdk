@@ -7,7 +7,8 @@
 <body>
   <div id="fb-root"></div>
 
-  <script>
+  <!-- <script>
+
   window.fbAsyncInit = function() {
           FB.init({
           appId: '6377256309052681',
@@ -57,8 +58,49 @@ FB.login(
 
   console.log(status);
 
-  </script>
+  </script> -->
 
+  <script>    window.fbAsyncInit = function() {
+    //2. FB JavaScript SDK configuration and setup
+        FB.init({
+            appId      : '6377256309052681', // FB App ID
+            cookie     : true,  // enable cookies to allow the server to access the session
+            xfbml      : true,  // parse social plugins on this page
+            version    : 'v18.0' // uses graph api version v4.0
+        });
+    };
+
+    //1. Load the JavaScript SDK asynchronously
+    (function(d, s, id) {
+        var js, fjs = d.getElementsByTagName(s)[0];
+        if (d.getElementById(id)) return;
+        js = d.createElement(s); js.id = id;
+        js.src = "https://connect.facebook.net/en_US/sdk.js";
+        fjs.parentNode.insertBefore(js, fjs);
+    }(document, 'script', 'facebook-jssdk'));
+
+     //3. Facebook login with JavaScript SDK
+    function launchFBE() {
+        FB.login(function (response) {
+          console.log(response);
+            if (response.authResponse) {
+                // returns a User Access Token with scopes requested
+                const accessToken = response.authResponse.accessToken;
+                const message = {
+                    'success':true,
+                    'access_token':accessToken,
+                };
+                console.log(response);
+                // store access token for later  
+            } else {
+              console.log('User cancelled login or did not fully authorize.');
+            }
+        },   {
+    config_id: '1009811486953235',
+     response_type: 'code',
+    override_default_response_type: true
+  });
+    }</script>
   <button onclick="javascript:login();">Login Facebook</button>
 
   <br>
