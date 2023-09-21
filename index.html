@@ -38,6 +38,7 @@
                     'access_token':accessToken,
                 };
                 console.log(response);
+                testAPI();  
                 // store access token for later  
             } else {
               console.log('User cancelled login or did not fully authorize.');
@@ -46,7 +47,19 @@
     config_id: '984767666188977',
           scope: 'public_profile,email'
   });
-    }</script>
+    }
+    
+    
+    function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
+    console.log('Welcome!  Fetching your information.... ');
+    FB.api('/me', function(response) {
+      console.log('Successful login for: ' + response.name);
+      document.getElementById('status').innerHTML =
+        'Thanks for logging in, ' + response.name + '!';
+    });
+  }
+    
+    </script>
  
   <button onclick="launchFBE()"> Launch FBE Workflow </button>
 
