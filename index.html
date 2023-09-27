@@ -6,7 +6,8 @@
 </head>
 <body>
   <div id="fb-root"></div>
-  
+  <div id="twitter-root"></div>
+
   <script>    window.fbAsyncInit = function() {
     //2. FB JavaScript SDK configuration and setup
         FB.init({
@@ -49,6 +50,41 @@
   });
     }
     
+    !function(d,s,id){
+            var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+            if(!d.getElementById(id)){
+                js=d.createElement(s);
+                js.id=id;
+                js.src=p+"://platform.twitter.com/widgets.js";
+                fjs.parentNode.insertBefore(js,fjs);
+            }
+        }(document,"script","twitter-wjs");
+
+        // Twitter login function
+        function launchTwitter() {
+            // Initialize the Twitter SDK
+            twttr.ready(function (twttr) {
+              twttr.init({
+            consumerKey: 'NiG5zURmBjEFDu6Cvh1MXxCod',
+            consumerSecret: 'QD8CqzJ2dVDupUDlT7WarVjtmcxQvhX13HX2TyhL95dWsSPQzF',
+            callbackURL: 'https://curious-beignet-53661c.netlify.app/'
+        });
+
+        // Use the Twitter SDK to initiate login
+        twttr.login(function (result) {
+            // Handle the login result here
+            if (result) {
+                // User is logged in
+                console.log("Twitter login successful");
+                console.log(result);
+            } else {
+                // User cancelled or there was an error
+                console.log("Twitter login cancelled or error occurred");
+            }
+        });
+    });
+        }
+
     
     function testAPI() {                      // Testing Graph API after login.  See statusChangeCallback() for when this call is made.
     console.log('Welcome!  Fetching your information.... ');
@@ -63,6 +99,9 @@
     </script>
  
   <button onclick="launchFBE()"> Launch FBE Workflow </button>
+<br>
+  <button onclick="launchTwitter()">Launch Twitter Login</button>
+
 
 </body>
 </html>
