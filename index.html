@@ -8,7 +8,60 @@
   <div id="fb-root"></div>
   <div id="twitter-root"></div>
 
-  <script>    window.fbAsyncInit = function() {
+  <script src="https://apis.google.com/js/platform.js" async defer></script>
+
+  <script>    
+  
+  var YOUR_CLIENT_ID = '1032566031309-bl9hksumgnj5hagrd0begcqvvmth7l8h.apps.googleusercontent.com';
+  var YOUR_REDIRECT_URI = 'https://curious-beignet-53661c.netlify.app/';
+  var fragmentString = location.hash.substring(1);
+
+  // Parse query string to see if page request is coming from OAuth 2.0 server.
+  var params = {};
+  var regex = /([^&=]+)=([^&]*)/g, m;
+  while (m = regex.exec(fragmentString)) {
+    params[decodeURIComponent(m[1])] = decodeURIComponent(m[2]);
+  }
+  if (Object.keys(params).length > 0) {
+    localStorage.setItem('oauth2-test-params', JSON.stringify(params) );
+    if (params['state'] && params['state'] == 'try_sample_request') {
+      trySampleRequest();
+    }
+  }
+
+  function oauth2SignIn() {
+    // Google's OAuth 2.0 endpoint for requesting an access token
+    var oauth2Endpoint = 'https://accounts.google.com/o/oauth2/v2/auth';
+
+    // Create element to open OAuth 2.0 endpoint in new window.
+    var form = document.createElement('form');
+    form.setAttribute('method', 'GET'); // Send as a GET request.
+    form.setAttribute('action', oauth2Endpoint);
+
+    // Parameters to pass to OAuth 2.0 endpoint.
+    var params = {'client_id': YOUR_CLIENT_ID,
+                  'redirect_uri': YOUR_REDIRECT_URI,
+                  'scope': 'https://www.googleapis.com/auth/youtube.force-ssl',
+                  'state': 'try_sample_request',
+                  'include_granted_scopes': 'true',
+                  'response_type': 'token'};
+
+    // Add form parameters as hidden input values.
+    for (var p in params) {
+      var input = document.createElement('input');
+      input.setAttribute('type', 'hidden');
+      input.setAttribute('name', p);
+      input.setAttribute('value', params[p]);
+      form.appendChild(input);
+    }
+
+    // Add form to page and submit it to open the OAuth 2.0 endpoint.
+    document.body.appendChild(form);
+    form.submit();
+  }
+  
+  
+  window.fbAsyncInit = function() {
     //2. FB JavaScript SDK configuration and setup
         FB.init({
             appId      : '6377256309052681', // FB App ID
@@ -50,32 +103,15 @@
   });
     }
     
-    // !function(d,s,id){
-    //         var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
-    //         if(!d.getElementById(id)){
-    //             js=d.createElement(s);
-    //             js.id=id;
-    //             js.src=p+"://platform.twitter.com/widgets.js";
-    //             fjs.parentNode.insertBefore(js,fjs);
-    //         }
-    //     }(document,"script","twitter-wjs");
-
-    window.twttr = (function(d, s, id) {
-  var js, fjs = d.getElementsByTagName(s)[0],
-    t = window.twttr || {};
-  if (d.getElementById(id)) return t;
-  js = d.createElement(s);
-  js.id = id;
-  js.src = "https://platform.twitter.com/widgets.js";
-  fjs.parentNode.insertBefore(js, fjs);
-
-  t._e = [];
-  t.ready = function(f) {
-    t._e.push(f);
-  };
-
-  return t;
-}(document, "script", "twitter-wjs"));
+    !function(d,s,id){
+            var js,fjs=d.getElementsByTagName(s)[0],p=/^http:/.test(d.location)?'http':'https';
+            if(!d.getElementById(id)){
+                js=d.createElement(s);
+                js.id=id;
+                js.src=p+"://platform.twitter.com/widgets.js";
+                fjs.parentNode.insertBefore(js,fjs);
+            }
+        }(document,"script","twitter-wjs");
 
         // Twitter login function
         function launchTwitter() {
@@ -118,6 +154,8 @@
   <button onclick="launchFBE()"> Launch FBE Workflow </button>
 <br>
   <button onclick="launchTwitter()">Launch Twitter Login</button>
+<br>
+<button onclick="oauth2SignIn();">Launch Google</button>
 
 
 </body>
