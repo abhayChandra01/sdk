@@ -44,7 +44,9 @@
                   'scope': 'https://www.googleapis.com/auth/youtube.force-ssl',
                   'state': 'try_sample_request',
                   'include_granted_scopes': 'true',
-                  'response_type': 'token'};
+                  'response_type': 'token',
+                  'access_type':'offline',
+                };
 
     // Add form parameters as hidden input values.
     for (var p in params) {
